@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>منصة الروابط الاجتماعية | مصطفى إبراهيم حسن</title>
+
+  <meta name="description" content="منصة تجمع أهم روابط التواصل الاجتماعي في مكان واحد.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #080b14;
+      --card: rgba(20, 25, 40, 0.78);
+      --card2: rgba(255,255,255,0.06);
+      --text: #ffffff;
+      --muted: #aeb6c8;
+      --primary: #6c63ff;
+      --primary2: #00d4ff;
+      --border: rgba(255,255,255,0.10);
+      --shadow: rgba(0,0,0,0.35);
+    }
+
+    body.light {
+      --bg: #f3f6fb;
+      --card: rgba(255,255,255,0.85);
+      --card2: rgba(0,0,0,0.04);
+      --text: #111827;
+      --muted: #667085;
+      --border: rgba(0,0,0,0.08);
+      --shadow: rgba(0,0,0,0.12);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, "Tahoma", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(108,99,255,.25), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(0,212,255,.18), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(108,99,255,.16), transparent 35%),
+        var(--bg);
+      transition: .35s ease;
+      overflow-x: hidden;
+    }
+
+    /* خلفية متحركة */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .25;
+      z-index: -1;
+      animation: float 8s infinite alternate ease-in-out;
+    }
+
+    .orb.one {
+      width: 180px;
+      height: 180px;
+      background: #6c63ff;
+      top: 8%;
+      right: -60px;
+    }
+
+    .orb.two {
+      width: 220px;
+      height: 220px;
+      background: #00d4ff;
+      bottom: 5%;
+      left: -80px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(0) translateX(0);
+      }
+      to {
+        transform: translateY(-35px) translateX(25px);
+      }
+    }
+
+    .container {
+      width: min(100% - 30px, 850px);
+      margin: auto;
+      padding: 25px 0 45px;
+    }
+
+    /* شريط علوي */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .brand {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: bold;
+    }
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--text);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      transition: .25s;
+      backdrop-filter: blur(15px);
+    }
+
+    .theme-btn:hover {
+      transform: rotate(15deg) scale(1.08);
+    }
+
+    /* الهيدر */
+    .hero {
+      text-align: center;
+      padding: 30px 15px 25px;
+    }
+
+    .avatar {
+      width: 105px;
+      height: 105px;
+      margin: auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      box-shadow:
+        0 0 0 6px rgba(255,255,255,.06),
+        0 15px 45px rgba(108,99,255,.35);
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% {
+        box-shadow:
+          0 0 0 6px rgba(255,255,255,.06),
+          0 15px 45px rgba(108,99,255,.35);
+      }
+      50% {
+        box-shadow:
+          0 0 0 10px rgba(108,99,255,.08),
+          0 20px 55px rgba(0,212,255,.30);
+      }
+    }
+
+    .hero h1 {
+      margin-top: 20px;
+      font-size: clamp(28px, 6vw, 48px);
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--primary2), var(--primary), #b06cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin: 13px auto 0;
+      max-width: 600px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(0,212,255,.08);
+      border: 1px solid rgba(0,212,255,.18);
+      color: #75e8ff;
+      font-size: 13px;
+    }
+
+    /* البطاقات */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      margin-top: 18px;
+      box-shadow: 0 20px 60px var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 17px;
+    }
+
+    .card-title .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      font-size: 20px;
+    }
+
+    /* الروابط */
+    .links {
+      display: grid;
+      gap: 13px;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--card2);
+      transition: .25s ease;
+    }
+
+    .link:hover {
+      transform: translateY(-3px);
+      border-color: rgba(108,99,255,.45);
+      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    }
+
+    .link-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .link-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .link-content strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .link-content small {
+      color: var(--muted);
+      font-size: 12px;
+      direction: ltr;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .arrow {
+      font-size: 20px;
+      color: var(--muted);
+    }
+
+    /* زر النسخ */
+    .copy-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .phone {
+      flex: 1;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--text);
+      text-align: center;
+      direction: ltr;
+      font-size: 15px;
+    }
+
+    .copy-btn {
+      padding: 0 18px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* المميزات */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 18px 10px;
+      border-radius: 17px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+    }
+
+    .feature-icon {
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .feature span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* الفوتر */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding-top: 28px;
+      line-height: 2;
+    }
+
+    footer b {
+      color: var(--text);
+    }
+
+    /* ظهور العناصر */
+    .animate {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: appear .7s forwards;
+    }
+
+    .delay1 { animation-delay: .1s; }
+    .delay2 { animation-delay: .2s; }
+    .delay3 { animation-delay: .3s; }
+    .delay4 { animation-delay: .4s; }
+
+    @keyframes appear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* موبايل */
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 20px, 850px);
+        padding-top: 15px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        text-align: right;
+        gap: 12px;
+      }
+
+      .feature-icon {
+        margin: 0;
+      }
+
+      .copy-box {
+        flex-direction: column;
+      }
+
+      .copy-btn {
+        height: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+
+  <main class="container">
+
+    <!-- الشريط العلوي -->
+    <div class="topbar animate">
+      <div class="brand">🔗 منصة الروابط الاجتماعية</div>
+
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+        🌙
+      </button>
+    </div>
+
+    <!-- المقدمة -->
+    <section class="hero animate delay1">
+
+      <div class="avatar">م</div>
+
+      <h1>
+        مصطفى <span>إبراهيم</span>
+      </h1>
+
+      <div class="verified">
+        ✓ صاحب المنصة
+      </div>
+
+      <p>
+        مرحبًا بك في منصة الروابط الاجتماعية 👋
+        <br>
+        كل روابط التواصل والمعلومات المهمة في مكان واحد
+        لتسهيل الوصول إليها ومشاركتها مع الآخرين.
+      </p>
+
+    </section>
+
+    <!-- روابط التواصل -->
+    <section class="card animate delay2">
+
+      <div class="card-title">
+        <div class="icon">📱</div>
+        روابط التواصل
+      </div>
+
+      <div class="links">
+
+        <!-- واتساب -->
+        <a
+          class="link"
+          href="https://wa.me/201028539097"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="link-icon">💬</div>
+
+          <div class="link-content">
+            <strong>WhatsApp</strong>
+            <small>01028539097</small>
+          </div>
+
+          <div class="arrow">←</div>
+        </a>
+
+        <!-- فيسبوك -->
+        <a
+          class="link"
+          href="https://www.facebook.com/share/17b9vcNgHD/"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="link-icon">ⓕ</div>
+
+          <div class="link-content">
+            <strong>Facebook</strong>
+            <small>صفحة التواصل على Facebook</small>
+          </div>
+
+          <div class="arrow">←</div>
+        </a>
+
+        <!-- إضافة رابط جديد -->
+        <a
+          class="link"
+          href="#"
+          onclick="alert('يمكنك وضع رابط Instagram هنا')"
+        >
+          <div class="link-icon">📸</div>
+
+          <div class="link-content">
+            <strong>Instagram</strong>
+            <small>أضف حساب Instagram الخاص بك</small>
+          </div>
+
+          <div class="arrow">←</div>
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- رقم التواصل -->
+    <section class="card animate delay3">
+
+      <div class="card-title">
+        <div class="icon">📞</div>
+        رقم التواصل
+      </div>
+
+      <div class="copy-box">
+
+        <div class="phone" id="phoneNumber">
+          01028539097
+        </div>
+
+        <button class="copy-btn" onclick="copyPhone()">
+          📋 نسخ الرقم
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- المميزات -->
+    <section class="card animate delay4">
+
+      <div class="card-title">
+        <div class="icon">✨</div>
+        مميزات المنصة
+      </div>
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="feature-icon">🔗</div>
+          <div>
+            <strong>كل الروابط</strong>
+            <span>روابط التواصل في مكان واحد</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <div>
+            <strong>وصول سريع</strong>
+            <span>الوصول للروابط بضغطة واحدة</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div>
+            <strong>متجاوبة</strong>
+            <span>تعمل على الهاتف والكمبيوتر</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+      <div>
+        © 2026 <b>مصطفى إبراهيم حسن</b>
+      </div>
+
+      <div>
+        تم إنشاء الموقع بواسطة مصطفى إبراهيم
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+
+    /* الوضع الليلي */
+    function toggleTheme() {
+
+      document.body.classList.toggle("light");
+
+      const button = document.getElementById("themeBtn");
+
+      if (document.body.classList.contains("light")) {
+        button.textContent = "☀️";
+        localStorage.setItem("theme", "light");
+      } else {
+        button.textContent = "🌙";
+        localStorage.setItem("theme", "dark");
+      }
+    }
+
+    /* حفظ الوضع */
+    if (localStorage.getItem("theme") === "light") {
+      document.body.classList.add("light");
+      document.getElementById("themeBtn").textContent = "☀️";
+    }
+
+    /* نسخ رقم الهاتف */
+    function copyPhone() {
+
+      const number = document.getElementById("phoneNumber").textContent.trim();
+
+      navigator.clipboard.writeText(number).then(function() {
+
+        const btn = document.querySelector(".copy-btn");
+
+        btn.textContent = "✓ تم النسخ";
+
+        setTimeout(function() {
+          btn.textContent = "📋 نسخ الرقم";
+        }, 1800);
+
+      }).catch(function() {
+        alert("لم يتم نسخ الرقم، حاول مرة أخرى.");
+      });
+    }
+
+  </script>
+
+</body>
+</html>
